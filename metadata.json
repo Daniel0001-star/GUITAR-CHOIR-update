@@ -1,0 +1,7 @@
+{
+  "name": "Guitar Choir Repository",
+  "description": "A premium digital repository for guitar ensembles, featuring a smart AI music assistant and sheet music management.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
