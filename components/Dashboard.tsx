@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { DashboardTab, Song } from '../types';
 import { RepositoryList } from './RepositoryList';
-import { SongGenerator } from './SongGenerator';
+
 import { Tuner } from './Tuner';
 import { SpotifyPlayer } from './SpotifyPlayer';
 import { MusicPlayerBar } from './MusicPlayerBar';
@@ -303,8 +303,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onLogout, userName }) => {
               />
             )}
             
-            {activeTab === DashboardTab.GENERATOR && <SongGenerator />}
-            
+                        
             {activeTab === DashboardTab.TUNER && <Tuner />}
             
             {activeTab === DashboardTab.GAME && <PitchGame />}
