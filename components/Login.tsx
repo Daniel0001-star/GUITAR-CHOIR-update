@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Guitar, ArrowRight, Lock } from 'lucide-react';
+import { ArrowRight, Lock, ShieldCheck } from 'lucide-react';
 
 interface LoginProps {
   onLogin: () => void;
@@ -11,12 +11,12 @@ const StarField = () => {
       id: i,
       left: `${Math.random() * 100}%`,
       top: `${Math.random() * 100}%`,
-      size: Math.random() * 3 + 1,
-      duration: Math.random() * 30 + 20, // 20-50s duration
+      size: Math.random() * 2 + 1,
+      duration: Math.random() * 30 + 20,
       delay: Math.random() * 20,
       opacity: Math.random() * 0.7 + 0.3,
-      // Rainbow colors: vivid HSL values
-      color: `hsl(${Math.random() * 360}, 100%, 70%)`
+      // Colors adjusted to include pinks and whites to match the logo
+      color: `hsl(${Math.random() > 0.5 ? 330 : 260}, 100%, 75%)`
     }));
   }, []);
 
@@ -26,27 +26,18 @@ const StarField = () => {
         @keyframes space-drift {
           0% { transform: translateY(0) translateX(0); opacity: 0; }
           10% { opacity: var(--target-opacity); }
-          90% { opacity: var(--target-opacity); }
-          100% { transform: translateY(-150px) translateX(-30px); opacity: 0; }
+          100% { transform: translateY(-100px) translateX(-20px); opacity: 0; }
         }
       `}</style>
-      
       {stars.map((star) => (
-        <div 
-          key={star.id}
-          className="absolute rounded-full"
+        <div key={star.id} className="absolute rounded-full"
           style={{
-            left: star.left,
-            top: star.top,
-            width: `${star.size}px`,
-            height: `${star.size}px`,
-            backgroundColor: star.color,
-            boxShadow: `0 0 ${star.size + 2}px ${star.color}`,
-            opacity: 0,
-            '--target-opacity': star.opacity,
+            left: star.left, top: star.top, width: `${star.size}px`, height: `${star.size}px`,
+            backgroundColor: star.color, boxShadow: `0 0 ${star.size + 2}px ${star.color}`,
+            opacity: 0, '--target-opacity': star.opacity,
             animation: `space-drift ${star.duration}s linear infinite`,
             animationDelay: `-${star.delay}s`
-          } as React.CSSProperties}
+          } as any}
         />
       ))}
     </div>
@@ -63,68 +54,73 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
     setError('');
     setIsLoading(true);
 
-    // Simulate authentication delay
     setTimeout(() => {
-      // Access code validation - Updated answer to '20'
       if (accessCode.trim() === '20') {
         onLogin();
       } else {
-        setError('Access denied. Please enter the correct passkey.');
+        setError('Access denied. Please check your passkey.');
         setIsLoading(false);
       }
     }, 800);
   };
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-[conic-gradient(at_top_right,_var(--tw-gradient-stops))] from-slate-900 via-purple-950 to-indigo-950 relative overflow-hidden">
+    <div className="min-h-screen w-full flex items-center justify-center bg-slate-950 relative overflow-hidden selection:bg-pink-500">
       
-      {/* Background Decorative Elements with Rainbow Stars */}
+      {/* Background Ambience */}
       <StarField />
-      <div className="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] bg-purple-600/20 rounded-full blur-[120px] mix-blend-screen animate-pulse" style={{ animationDuration: '8s' }} />
-      <div className="absolute bottom-[-20%] right-[-10%] w-[600px] h-[600px] bg-indigo-600/20 rounded-full blur-[120px] mix-blend-screen animate-pulse" style={{ animationDuration: '12s' }} />
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-pink-600/10 rounded-full blur-[120px] animate-pulse" />
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[120px] animate-pulse" />
 
-      <div className="relative z-10 w-full max-w-md p-8">
-        <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl shadow-2xl shadow-black/50 p-8 transform transition-all hover:scale-[1.01] duration-500">
+      <div className="relative z-10 w-full max-w-md p-6">
+        <div className="backdrop-blur-2xl bg-white/[0.02] border border-white/10 rounded-[3rem] p-10 shadow-2xl shadow-black/50">
           
-          <div className="flex flex-col items-center mb-8 text-center">
-            <div className="w-16 h-16 bg-gradient-to-tr from-pink-500 via-purple-500 to-indigo-500 rounded-full flex items-center justify-center mb-6 shadow-lg shadow-purple-500/30 group">
-              <Guitar className="w-8 h-8 text-white group-hover:rotate-12 transition-transform" />
+          {/* Logo Section with Pink Underground Glow */}
+          <div className="flex flex-col items-center mb-10 text-center">
+            <div className="relative mb-6 group">
+              {/* The "Pink Underground" Glow */}
+              <div className="absolute inset-0 bg-pink-600/40 rounded-full blur-2xl group-hover:bg-pink-500/60 transition-all duration-700 scale-110" />
+              
+              {/* Logo Circle */}
+              <div className="relative w-28 h-28 bg-white/5 backdrop-blur-md rounded-full flex items-center justify-center border border-white/20 overflow-hidden shadow-inner">
+                <img 
+                  src="https://ewdlsufzakowsdyozato.supabase.co/storage/v1/object/public/guitarChoir%20images/guitar_logo.jpeg" 
+                  alt="MFM Guitar Choir" 
+                  className="w-[85%] h-[85%] object-contain transform group-hover:scale-110 transition-transform duration-500"
+                />
+              </div>
             </div>
             
-            {/* Creative Font Treatment */}
-            <h1 className="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-300 brand-font mb-2 italic tracking-tighter drop-shadow-[0_2px_10px_rgba(168,85,247,0.5)] transform -rotate-2">
+            <h1 className="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-300 via-white to-purple-300 brand-font mb-2 italic tracking-tighter drop-shadow-[0_2px_10px_rgba(219,39,119,0.3)] transform -rotate-1">
               Guitar Choir
             </h1>
             
-            <div className="h-1 w-20 bg-gradient-to-r from-transparent via-pink-500 to-transparent mb-3 opacity-50"></div>
-
-            <p className="text-purple-200/80 text-sm tracking-[0.2em] uppercase font-light">
+            <p className="text-pink-300/50 text-[10px] tracking-[0.4em] uppercase font-bold">
               Lyrics Repository
             </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
-              <label htmlFor="code" className="text-xs font-semibold text-purple-300 uppercase tracking-wider ml-1">
-                Access Portal
+              <label className="text-[10px] font-bold text-pink-400/60 uppercase tracking-widest ml-4">
+                Security Access
               </label>
               <div className="relative group">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Lock className="h-5 w-5 text-purple-400 group-focus-within:text-purple-200 transition-colors" />
+                <div className="absolute left-5 top-1/2 -translate-y-1/2 text-pink-500/50">
+                  <Lock size={18} />
                 </div>
                 <input
-                  id="code"
                   type="password"
                   value={accessCode}
                   onChange={(e) => setAccessCode(e.target.value)}
-                  className="block w-full pl-10 pr-3 py-3 bg-black/20 border border-purple-500/30 rounded-lg text-purple-100 placeholder-purple-500/50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all backdrop-blur-sm"
-                  placeholder="Enter passkey (hint: how old is guitar choir?)"
+                  className="w-full bg-black/40 border border-white/10 rounded-2xl py-4 pl-14 pr-4 text-white placeholder-white/10 focus:outline-none focus:border-pink-500/50 transition-all backdrop-blur-sm"
+                  placeholder="Enter passkey"
                 />
               </div>
             </div>
 
             {error && (
-              <p className="text-red-400 text-xs text-center animate-pulse">
+              <p className="text-red-400 text-xs text-center font-medium animate-bounce">
                 {error}
               </p>
             )}
@@ -132,23 +128,25 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full flex items-center justify-center py-3 px-4 rounded-lg bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 hover:from-purple-500 hover:via-indigo-500 hover:to-blue-500 text-white font-medium shadow-lg shadow-purple-900/40 transition-all transform active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed group"
+              className="w-full relative group overflow-hidden py-4 rounded-2xl bg-gradient-to-r from-pink-600 to-purple-600 text-white font-bold shadow-lg shadow-pink-900/20 transition-all active:scale-95 disabled:opacity-50"
             >
-              {isLoading ? (
-                <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-              ) : (
-                <>
-                  <span>Enter Repository</span>
-                  <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </>
-              )}
+              <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+              <div className="relative flex items-center justify-center gap-2">
+                {isLoading ? (
+                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                ) : (
+                  <>
+                    <span>Open Archive</span>
+                    <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                  </>
+                )}
+              </div>
             </button>
           </form>
 
-          <div className="mt-8 text-center">
-            <p className="text-xs text-purple-400/40">
-              Restricted Access &bull; Authorized Personnel Only
-            </p>
+          <div className="mt-10 flex items-center justify-center gap-2 text-[10px] text-white/20 uppercase tracking-[0.2em] font-bold">
+            <ShieldCheck size={12} />
+            Authorized Access Only
           </div>
         </div>
       </div>

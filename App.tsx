@@ -1,24 +1,19 @@
 import React, { useState } from 'react';
 import { Login } from './components/Login';
-import { UserInfoForm } from './components/UserInfoForm';
 import { Dashboard } from './components/Dashboard';
 import { ViewState } from './types';
 
 function App() {
   const [viewState, setViewState] = useState<ViewState>(ViewState.LOGIN);
-  const [userName, setUserName] = useState<string>('');
+  const [userName, setUserName] = useState<string>('Member'); // Set a default name
 
   const handleLogin = () => {
-    setViewState(ViewState.USER_INFO);
-  };
-
-  const handleUserInfoSubmit = (name: string) => {
-    setUserName(name);
+    // Skip USER_INFO and go straight to the Dashboard
     setViewState(ViewState.DASHBOARD);
   };
 
   const handleLogout = () => {
-    setUserName('');
+    setUserName('Member');
     setViewState(ViewState.LOGIN);
   };
 
@@ -26,8 +21,6 @@ function App() {
     switch(viewState) {
       case ViewState.LOGIN:
         return <Login onLogin={handleLogin} />;
-      case ViewState.USER_INFO:
-        return <UserInfoForm onSubmit={handleUserInfoSubmit} />;
       case ViewState.DASHBOARD:
         return <Dashboard userName={userName} onLogout={handleLogout} />;
       default:
